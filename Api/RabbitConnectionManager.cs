@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Core.Config;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
 namespace Api;
@@ -13,12 +14,12 @@ public sealed class RabbitConnectionManager : IAsyncDisposable
 
     private IConnection? _connection;
 
-    public RabbitConnectionManager()
+    public RabbitConnectionManager(IOptions<CoreConfig> config)
     {
         _factory = new ConnectionFactory
         {
-            HostName = Consts.RabbitAddress,
-            Port = Consts.RabbitPort
+            HostName = config.Value.RabbitAddress,
+            Port = config.Value.RabbitPort
         };
     }
 

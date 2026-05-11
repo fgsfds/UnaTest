@@ -1,0 +1,7 @@
+{
+  "Core": {
+    "RabbitAddress": "localhost",
+    "RabbitPort": "5672",
+    "DbConnectionString": "Host=localhost;Port=5432;Database=maindb;Username=postgres;Password=123;Include Error Detail=True"
+  }
+}
