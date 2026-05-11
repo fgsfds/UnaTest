@@ -1,3 +1,4 @@
+using Broker;
 using Core;
 using Core.Config;
 using Database;
@@ -18,14 +19,16 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddHttpClient();
         builder.Services.AddOpenApi();
-        builder.Services.AddSingleton<RabbitConnectionManager>();
         builder.Services.AddDbContextFactory<DatabaseContext>(CreateDbContext);
+
+        builder.Services.AddSingleton<ConnectionManager>();
+        builder.Services.AddSingleton<Producer>();
 
         var app = builder.Build();
 
         app.MapControllers();
 
-        app.CreateOrMigrateDb();
+        //app.CreateOrMigrateDb();
 
         app.MapOpenApi();
         app.Run();

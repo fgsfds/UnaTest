@@ -1,3 +1,4 @@
+using Broker;
 using Core;
 using Core.Config;
 using Database;
@@ -18,9 +19,13 @@ public class Program
 
         builder.Services.AddHttpClient();
         builder.Services.AddLogging();
-        builder.Services.AddSingleton(CreateConnectionFactory);
         builder.Services.AddDbContextFactory<DatabaseContext>(CreateDbContext);
+
         builder.Services.AddHostedService<IncomingPdfsService>();
+
+        builder.Services.AddSingleton(CreateConnectionFactory);
+        builder.Services.AddSingleton<ConnectionManager>();
+        builder.Services.AddSingleton(typeof(ConsumerFactory<>));
 
         var host = builder.Build();
         host.Run();

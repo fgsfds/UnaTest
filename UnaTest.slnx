@@ -3,6 +3,7 @@
     <Project Path="Api/Api.csproj" />
     <Project Path="PdfWorker/PdfWorker.csproj" />
   </Folder>
+  <Project Path="Broker/Broker.csproj" Id="f6460ea8-3ff6-4941-8486-ee132ab17fb2" />
   <Project Path="Core/Core.csproj" Id="1190163a-12b8-441a-8a2d-8c9e5e420f75" />
   <Project Path="Database/Database.csproj" Id="f392cb21-415b-43f5-ac5b-09ae5b34bfa2" />
 </Solution>

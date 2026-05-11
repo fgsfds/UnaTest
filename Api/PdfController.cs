@@ -1,12 +1,11 @@
-using System.Text.Json;
+using Broker;
+using Broker.Messages;
 using Core;
 using Core.DTOs;
-using Core.Messages;
 using Database;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RabbitMQ.Client;
 
 namespace Api;
 
@@ -62,7 +61,7 @@ public class PdfController : ControllerBase
     [HttpPost]
     public async Task<Results<Ok, InternalServerError>> UploadAsync(
         IFormFile file,
-        [FromServices] RabbitConnectionManager connectionManager,
+        [FromServices] Producer producer,
         [FromServices] IHttpClientFactory httpFactory
         )
     {
@@ -87,17 +86,8 @@ public class PdfController : ControllerBase
             FileName = file.FileName,
             DownloadUrl = uploadUrl
         };
-        var body = JsonSerializer.SerializeToUtf8Bytes(json);
 
-        await using var channel = await connectionManager.GetChannelAsync();
-
-        await channel.BasicPublishAsync(
-            Consts.ExchangeTopicAmq,
-            Consts.RoutingKeyPdfUploaded,
-            true,
-            new BasicProperties() { Persistent = true },
-            body
-            );
+        await producer.SendAsync(json);
 
         return TypedResults.Ok();
     }

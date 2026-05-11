@@ -2,19 +2,19 @@
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
-namespace Api;
+namespace Broker;
 
 /// <summary>
 /// Менеджер подключений к RabbitMQ.
 /// </summary>
-public sealed class RabbitConnectionManager : IAsyncDisposable
+public sealed class ConnectionManager : IAsyncDisposable
 {
     private readonly ConnectionFactory _factory;
     private readonly SemaphoreSlim _semaphore = new(1);
 
     private IConnection? _connection;
 
-    public RabbitConnectionManager(IOptions<CoreConfig> config)
+    public ConnectionManager(IOptions<CoreConfig> config)
     {
         _factory = new ConnectionFactory
         {
